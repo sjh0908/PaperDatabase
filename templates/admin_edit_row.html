@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>修改 {{ table_name }}</title>
+</head>
+<body>
+    <h1>修改 {{ table_name }}</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form method="post">
+
+        {% for column in table_config["columns"] %}
+
+            <p>
+                <label>{{ column }}：</label><br>
+
+                {% if column in table_config["editable"] %}
+                    <input
+                        type="text"
+                        name="{{ column }}"
+                        value="{{ row[column] or '' }}"
+                        style="width: 500px;"
+                    >
+                {% else %}
+                    <input
+                        type="text"
+                        value="{{ row[column] or '' }}"
+                        style="width: 500px;"
+                        disabled
+                    >
+                {% endif %}
+            </p>
+
+        {% endfor %}
+
+        <button type="submit">保存修改</button>
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('admin_table_view', table_name=table_name) }}">返回表管理</a>
+</body>
+</html>
