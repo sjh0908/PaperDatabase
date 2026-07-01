@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+</head>
+<body>
+    <h1>用户登录</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="/login" method="post">
+        <p>
+            <label>用户名：</label><br>
+            <input type="text" name="username" required>
+        </p>
+
+        <p>
+            <label>密码：</label><br>
+            <input type="password" name="password" required>
+        </p>
+
+        <button type="submit">登录</button>
+    </form>
+
+    <br>
+    <a href="/register">注册普通用户账号</a>
+</body>
+</html>
