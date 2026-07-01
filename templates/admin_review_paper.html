@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>审核论文</title>
+</head>
+<body>
+    <h1>审核论文</h1>
+
+    <form action="{{ url_for('admin_review_paper', paper_id=paper.paper_id) }}" method="post">
+
+        <p>
+            <label>论文ID：</label><br>
+            <input type="text" value="{{ paper.paper_id }}" disabled>
+        </p>
+
+        <p>
+            <label>DOI：</label><br>
+            <input type="text" name="paper_doi" value="{{ paper.paper_doi or '' }}" style="width: 600px;">
+        </p>
+
+        <p>
+            <label>论文标题：</label><br>
+            <input type="text" name="paper_name" value="{{ paper.paper_name or '' }}" style="width: 800px;" required>
+        </p>
+
+        <p>
+            <label>摘要：</label><br>
+            <textarea name="paper_abstract" rows="8" cols="100">{{ paper.paper_abstract or '' }}</textarea>
+        </p>
+
+        <p>
+            <label>发表日期：</label><br>
+            <input type="date" name="paper_public_date" value="{{ paper.paper_public_date or '' }}">
+        </p>
+
+        <p>
+            <label>日期精度：</label><br>
+            <select name="paper_public_date_precision">
+                <option value="day" {% if paper.paper_public_date_precision == "day" %}selected{% endif %}>day</option>
+                <option value="month" {% if paper.paper_public_date_precision == "month" %}selected{% endif %}>month</option>
+                <option value="year" {% if paper.paper_public_date_precision == "year" %}selected{% endif %}>year</option>
+            </select>
+        </p>
+
+        <p>
+            <label>论文来源ID：</label><br>
+            <input type="number" name="papersource_id" value="{{ paper.papersource_id or '' }}">
+        </p>
+
+        <p>
+            <label>当前审核状态：</label><br>
+            <input type="text" value="{{ paper.paper_review_status }}" disabled>
+        </p>
+
+        <button type="submit" name="action" value="save">保存修改</button>
+
+        <button type="submit" name="action" value="approve">保存并审核通过</button>
+    </form>
+
+    <br>
+
+    <form action="{{ url_for('admin_fetch_doi_metadata', paper_id=paper.paper_id) }}" method="post">
+        <button type="submit">通过 DOI 自动补全</button>
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('admin_pending') }}">返回待审核列表</a>
+</body>
+</html>
