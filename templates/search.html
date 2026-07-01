@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>论文查询</title>
+</head>
+<body>
+    <h1>论文查询</h1>
+
+    <form action="/search" method="get">
+        <select name="search_type">
+            <option value="title" {% if search_type == "title" %}selected{% endif %}>标题</option>
+            <option value="doi" {% if search_type == "doi" %}selected{% endif %}>DOI</option>
+            <option value="keyword" {% if search_type == "keyword" %}selected{% endif %}>关键词</option>
+            <option value="author" {% if search_type == "author" %}selected{% endif %}>作者</option>
+        </select>
+
+        <input type="text" name="keyword" value="{{ keyword }}" placeholder="请输入查询内容">
+
+        <button type="submit">查询</button>
+    </form>
+
+    <hr>
+
+    {% if papers is not none %}
+        {% if papers %}
+            <p>共找到 {{ papers|length }} 篇论文。</p>
+
+            <table border="1" cellpadding="8">
+                <tr>
+                    <th>ID</th>
+                    <th>标题</th>
+                   <th>DOI</th>
+                    <th>发表日期</th>
+
+                    {% if current_user and current_user["dbuser_role"] == "admin" %}
+                        <th>PDF路径</th>
+                        <th>审核状态</th>
+                        <th>审核操作</th>
+                    {% endif %}
+
+                    <th>下载</th>
+                </tr>
+
+                {% for paper in papers %}
+                <tr>
+                    <td>{{ paper.paper_id }}</td>
+                    <td>{{ paper.paper_name }}</td>
+                    <td>{{ paper.paper_doi or "" }}</td>
+                    <td>{{ paper.paper_public_date or "" }}</td>
+
+                    {% if current_user and current_user["dbuser_role"] == "admin" %}
+                        <td>{{ paper.paper_file_path }}</td>
+                        <td>{{ paper.paper_review_status }}</td>
+                        <td>
+                            {% if paper.paper_review_status == "pending" %}
+                                <a href="{{ url_for('admin_review_paper', paper_id=paper.paper_id) }}">
+                                    进入审核
+                                </a>
+                            {% else %}
+                                <form action="{{ url_for('admin_set_paper_pending', paper_id=paper.paper_id) }}" method="post">
+                                    <button type="submit">设为待审核</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+
+                    <td>
+                        <a href="{{ url_for('download_paper', paper_id=paper.paper_id) }}">下载 PDF</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>没有找到符合条件的论文。</p>
+        {% endif %}
+    {% endif %}
+
+    <br>
+
+    <a href="/">返回首页</a>
+</body>
+</html>
