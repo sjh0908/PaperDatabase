@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>确认导入论文</title>
+</head>
+<body>
+    <h1>确认导入论文</h1>
+
+    <p>请检查并修改自动解析出的论文信息，检查完毕后可确认</p>
+
+    <form action="/confirm_import" method="post">
+
+        <input type="hidden" name="paper_file_path" value="{{ paper_file_path }}">
+
+        <p>
+            原始文件名：
+            {{ original_filename }}
+        </p>
+
+        <p>
+            服务器文件名：
+            {{ stored_filename }}
+        </p>
+
+        <p>
+            SHA256：
+            {{ file_hash }}
+        </p>
+
+        <p>
+            <label>DOI：</label><br>
+            <input type="text" name="paper_doi" value="{{ doi }}" style="width: 500px;">
+        </p>
+
+        <p>
+            <label>论文标题：</label><br>
+            <input type="text" name="paper_name" value="{{ title }}" style="width: 700px;" required>
+        </p>
+
+        <p>
+            <label>摘要：</label><br>
+            <textarea name="paper_abstract" rows="6" cols="90">{{ abstract }}</textarea>
+        </p>
+
+        <p>
+            <label>发表日期：</label><br>
+            <input type="date" name="paper_public_date" value="{{ public_date }}">
+        </p>
+
+        <p>
+            <label>日期精度：</label><br>
+            <select name="paper_public_date_precision">
+                <option value="day" selected>day</option>
+                <option value="month">month</option>
+                <option value="year">year</option>
+            </select>
+        </p>
+
+        <p>
+            <label>论文来源 ID：</label><br>
+            <input type="number" name="papersource_id">
+        </p>
+
+        <p>
+            <label>关键词：</label><br>
+            <input type="text" name="keywords" value="{{ keywords }}" style="width: 700px;">
+            <br>
+            <small>用英文逗号分隔关键词</small>
+        </p>
+
+        <p>
+            <label>作者：</label><br>
+            <input type="text" name="authors" value="{{ authors }}" style="width: 700px;">
+            <br>
+            <small>用英文逗号分隔作者</small>
+        </p>
+
+        <button type="submit">确认导入数据库</button>
+
+        {% if current_user and current_user.user_role == "admin" %}
+        <p>
+            <label>
+                <input type="checkbox" name="skip_review" value="1">
+                跳过人工审核，直接设为已审核
+            </label>
+        </p>
+        {% endif %}
+    </form>
+
+    <br>
+
+    <a href="/upload">取消并返回上传页</a>
+</body>
+</html>
