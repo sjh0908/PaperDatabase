@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>待审核论文</title>
+</head>
+<body>
+    <h1>待审核论文</h1>
+
+    {% if papers %}
+        <table border="1" cellpadding="8">
+            <tr>
+                <th>ID</th>
+                <th>标题</th>
+                <th>DOI</th>
+                <th>发表日期</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+
+            {% for paper in papers %}
+            <tr>
+                <td>{{ paper.paper_id }}</td>
+                <td>{{ paper.paper_name }}</td>
+                <td>{{ paper.paper_doi or "" }}</td>
+                <td>{{ paper.paper_public_date or "" }}</td>
+                <td>{{ paper.paper_review_status }}</td>
+                <td>
+                    <a href="{{ url_for('admin_review_paper', paper_id=paper.paper_id) }}">
+                        进入审核
+                    </a>
+
+                    <br><br>
+
+                    <form action="{{ url_for('admin_fetch_doi_metadata', paper_id=paper.paper_id) }}" method="post">
+                        <button type="submit">通过 DOI 自动补全</button>
+                    </form>
+
+                    <br>
+
+                    <form action="{{ url_for('admin_approve_paper', paper_id=paper.paper_id) }}" method="post">
+                        <button type="submit">审核通过</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>暂无待审核论文。</p>
+    {% endif %}
+
+    <br>
+
+    <a href="/">返回首页</a>
+</body>
+</html>
