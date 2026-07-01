@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>上传 PDF</title>
+</head>
+<body>
+    <h1>上传 PDF</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label>选择 PDF 文件：</label>
+        <input type="file" name="pdf_file" accept=".pdf">
+
+        <br><br>
+
+        <button type="submit">上传</button>
+    </form>
+
+    <br>
+
+    <a href="/">返回首页</a>
+</body>
+</html>
