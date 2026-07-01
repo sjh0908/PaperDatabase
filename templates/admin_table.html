@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ table_name }} 管理</title>
+</head>
+<body>
+    <h1>{{ table_name }} 管理</h1>
+
+    <form method="get">
+        <label>筛选字段：</label>
+        <select name="filter_column">
+            <option value="">不筛选</option>
+            {% for column in table_config["columns"] %}
+                <option value="{{ column }}" {% if filter_column == column %}selected{% endif %}>
+                    {{ column }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <input type="text" name="filter_value" value="{{ filter_value or '' }}">
+
+        <button type="submit">筛选</button>
+    </form>
+
+    <hr>
+
+    {% if rows %}
+        <table border="1" cellpadding="8">
+            <tr>
+                {% for column in table_config["columns"] %}
+                    <th>{{ column }}</th>
+                {% endfor %}
+
+                {% if table_config["pk"] %}
+                    <th>操作</th>
+                {% endif %}
+            </tr>
+
+            {% for row in rows %}
+                <tr>
+                    {% for column in table_config["columns"] %}
+                        <td>{{ row[column] }}</td>
+                    {% endfor %}
+
+                    {% if table_config["pk"] %}
+                        <td>
+                            <a href="{{ url_for(
+                                'admin_edit_row',
+                                table_name=table_name,
+                                pk_value=row[table_config["pk"]]
+                            ) }}">
+                                修改
+                            </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>没有符合条件的数据。</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('admin_database') }}">返回数据库管理</a>
+</body>
+</html>
