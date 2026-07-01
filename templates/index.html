@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>PaperDatabase</title>
+</head>
+<body>
+    <h1>PaperDatabase</h1>
+
+    <p>文献管理系统</p>
+
+    <a href="/upload">上传 PDF</a>
+    <a href="/search">查询论文</a>
+    <a href="/export">批量导出数据</a>
+    {% if current_user and current_user["dbuser_role"] == "admin" %}
+        <p><a href="/admin/pending">查看待审核论文</a></p>
+    {% endif %}
+    {% if current_user and current_user["dbuser_role"] == "admin" %}
+        <p><a href="{{ url_for('admin_database') }}">数据库管理</a></p>
+    {% endif %}
+
+    {% if current_user %}
+        <p>
+            当前用户：
+            {{ current_user["dbuser_name"] }}
+            （{{ current_user["dbuser_role"] }}）
+        </p>
+        <a href="/logout">退出登录</a>
+    {% else %}
+        <a href="/login">登录</a>
+    {% endif %}
+</body>
+</html>
