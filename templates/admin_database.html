@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>数据库管理</title>
+</head>
+<body>
+    <h1>数据库管理</h1>
+
+    <ul>
+        {% for table in tables %}
+            <li>
+                <a href="{{ url_for('admin_table_view', table_name=table) }}">
+                    {{ table }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="/">返回首页</a>
+</body>
+</html>
