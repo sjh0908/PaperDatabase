@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>批量导出数据</title>
+</head>
+<body>
+    <h1>批量导出数据</h1>
+
+    <form action="/export" method="post">
+
+        <h3>选择导出字段</h3>
+
+        <label><input type="checkbox" name="fields" value="paper_id" checked> 论文ID</label><br>
+        <label><input type="checkbox" name="fields" value="paper_doi"> DOI</label><br>
+        <label><input type="checkbox" name="fields" value="paper_name" checked> 论文标题</label><br>
+        <label><input type="checkbox" name="fields" value="paper_abstract"> 摘要</label><br>
+        <label><input type="checkbox" name="fields" value="paper_public_date"> 发表日期</label><br>
+        <label><input type="checkbox" name="fields" value="paper_file_path"> PDF路径</label><br>
+
+        <hr>
+
+        <label><input type="checkbox" name="fields" value="author_name"> 作者姓名</label><br>
+        <label><input type="checkbox" name="fields" value="author_orcid"> ORCID</label><br>
+        <label><input type="checkbox" name="fields" value="author_email"> 作者邮箱</label><br>
+        <label><input type="checkbox" name="fields" value="author_role"> 作者角色</label><br>
+
+        <hr>
+
+        <label><input type="checkbox" name="fields" value="institution_name"> 作者单位</label><br>
+        <label><input type="checkbox" name="fields" value="institution_address"> 单位地址</label><br>
+
+        <hr>
+
+        <label><input type="checkbox" name="fields" value="keyword_name"> 关键词</label><br>
+
+        <hr>
+
+        <label><input type="checkbox" name="fields" value="source_type"> 来源类型</label><br>
+        <label><input type="checkbox" name="fields" value="source_name"> 来源名称</label><br>
+        <label><input type="checkbox" name="fields" value="source_location"> 来源地点</label><br>
+
+        <h3>筛选条件</h3>
+
+        <p>
+            <label>论文标题包含：</label><br>
+            <input type="text" name="paper_keyword">
+        </p>
+
+        <p>
+            <label>作者姓名包含：</label><br>
+            <input type="text" name="author_keyword">
+        </p>
+
+        <p>
+            <label>作者单位包含：</label><br>
+            <input type="text" name="institution_keyword">
+        </p>
+
+        <p>
+            <label>关键词包含：</label><br>
+            <input type="text" name="keyword_keyword">
+        </p>
+
+        <p>
+            <label>发表日期开始：</label><br>
+            <input type="date" name="start_date">
+        </p>
+
+        <p>
+            <label>发表日期结束：</label><br>
+            <input type="date" name="end_date">
+        </p>
+
+        <h3>导出格式</h3>
+
+        <label>
+            <input type="radio" name="export_format" value="csv" checked>
+            CSV
+        </label>
+
+        <label>
+            <input type="radio" name="export_format" value="json">
+            JSON
+        </label>
+
+        <br><br>
+
+        <button type="submit">导出</button>
+    </form>
+
+    <br>
+
+    <a href="/">返回首页</a>
+</body>
+</html>
