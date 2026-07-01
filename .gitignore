@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploaded files (keep structure, ignore content)
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Flask
+instance/
+*.pyc
+
+# Temp files
+~$*
+*.log
